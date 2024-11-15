@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import repository.ToyRepository;
-import views.ElfView;
+import views.ElfViewTest;
 
 import static org.mockito.Mockito.*;
 
@@ -28,6 +28,6 @@ public class ToyControllerTest {
 
         verify(mockRepository, times(1)).addGoodToy(any(GoodToy.class));
 
-        verify(ElfView.class, times(1)).addToyResponse();
+        verify(ElfViewTest.class, times(1)).addToyResponse();
     }
 }

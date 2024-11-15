@@ -3,7 +3,7 @@ package controllers;
 import dtos.GoodToyDto;
 import models.GoodToy;
 import repository.ToyRepository;
-import views.ElfView;
+import views.ElfViewTest;
 
 public class ToyController {
     private final ToyRepository repository;
@@ -20,6 +20,6 @@ public class ToyController {
                 goodToyDto.category()
         );
         repository.addGoodToy(toy);
-        ElfView.addToyResponse();
+        ElfViewTest.addToyResponse();
     }
 }

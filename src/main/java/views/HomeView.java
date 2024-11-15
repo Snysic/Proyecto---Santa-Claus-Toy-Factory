@@ -12,7 +12,7 @@ public class HomeView extends View {
 
         int option = scanner.nextInt();
 
-        if (option == 1) ElfView.index();
+        if (option == 1) ElfViewTest.index();
         if (option == 3) quit();
     }
 
