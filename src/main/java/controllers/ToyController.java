@@ -7,9 +7,11 @@ import views.ElfViewTest;
 
 public class ToyController {
     private final ToyRepository repository;
+    private final ElfViewTest view;
 
-    public ToyController() {
-        this.repository = new ToyRepository();
+    public ToyController(ToyRepository repository, ElfViewTest view) {
+        this.repository = repository;
+        this.view = view;
     }
 
     public void postGoodToy(GoodToyDto goodToyDto) {
@@ -20,6 +22,6 @@ public class ToyController {
                 goodToyDto.category()
         );
         repository.addGoodToy(toy);
-        ElfViewTest.addToyResponse();
+        view.addToyResponse();
     }
 }
