@@ -1,17 +1,11 @@
 package newyearproject;
 
-/**
- * Hello world!
- */
-public final class App {
-    private App() {
-    }
+import views.HomeView;
 
-    /**
-     * Says hello to the world.
-     * @param args The arguments of the program.
-     */
+public final class App {
+    private App() {}
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        HomeView.index();
     }
 }
