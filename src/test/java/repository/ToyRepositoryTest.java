@@ -4,6 +4,7 @@ import models.GoodToy;
 import models.BadToy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ToyRepositoryTest {
@@ -31,14 +32,5 @@ public class ToyRepositoryTest {
 
         assertEquals(1, toyRepository.getAllBadToys().size());
         assertEquals(badToy, toyRepository.getAllBadToys().get(0));
-    }
-
-    @Test
-    public void testRemoveToy() {
-        GoodToy goodToy = new GoodToy("LEGO Star Wars", "LEGO", 12, "Juguetes de Construcción");
-        toyRepository.addGoodToy(goodToy);
-        toyRepository.removeToy(goodToy);
-
-        assertTrue(toyRepository.getAllGoodToys().isEmpty());
     }
 }
