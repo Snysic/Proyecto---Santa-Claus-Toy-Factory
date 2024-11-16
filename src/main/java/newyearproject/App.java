@@ -1,11 +1,11 @@
 package newyearproject;
 
-import views.HomeView;
+import views.HomeViewTest;
 
 public final class App {
     private App() {}
 
     public static void main(String[] args) {
-        HomeView.index();
+        HomeViewTest.index();
     }
 }

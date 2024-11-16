@@ -1,7 +1,7 @@
 package repository;
 
 import db.ToysDB;
-import models.BadToy;
+import models.BadToyTest;
 import models.GoodToy;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class ToyRepository {
         database.getGoodToys().add(goodToy);
     }
 
-    public void addBadToy(BadToy badToy) {
+    public void addBadToy(BadToyTest badToy) {
         badToy.setId(database.getBadToys().size() + 1);
         database.getBadToys().add(badToy);
     }
@@ -23,7 +23,7 @@ public class ToyRepository {
         return database.getGoodToys();
     }
 
-    public List<BadToy> getAllBadToys() {
+    public List<BadToyTest> getAllBadToys() {
         return database.getBadToys();
     }
 }

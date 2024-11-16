@@ -4,33 +4,41 @@ import dtos.GoodToyDto;
 import models.GoodToy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.ArgumentCaptor;
 import repository.ToyRepository;
 import views.ElfViewTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class ToyControllerTest {
+class ToyControllerTest {
 
-    private ToyRepository mockRepository;
-    private ElfViewTest mockView;
-    private ToyController toyController;
+    private ToyRepository repositoryMock;
+    private ElfViewTest viewMock;
+    private ToyController controller;
 
     @BeforeEach
-    public void setup() {
-        mockRepository = mock(ToyRepository.class); 
-        mockView = mock(ElfViewTest.class); 
-        toyController = new ToyController(mockRepository, mockView); 
+    void setUp() {
+        repositoryMock = mock(ToyRepository.class);
+        viewMock = mock(ElfViewTest.class);
+        controller = new ToyController(repositoryMock, viewMock);
     }
 
     @Test
-    public void testPostGoodToy() {
-        GoodToyDto goodToyDto = new GoodToyDto("LEGO Star Wars", "LEGO", 12, "Juguetes de Construcción");
+    void testPostGoodToy() {
+        GoodToyDto dto = new GoodToyDto("Teddy Bear", "Hasbro", 5, "Plush");
 
-        toyController.postGoodToy(goodToyDto);
+        controller.postGoodToy(dto);
 
-        verify(mockRepository, times(1)).addGoodToy(any(GoodToy.class));
+        ArgumentCaptor<GoodToy> toyCaptor = ArgumentCaptor.forClass(GoodToy.class);
+        verify(repositoryMock, times(1)).addGoodToy(toyCaptor.capture());
 
-        verify(mockView, times(1)).addToyResponse();
+        GoodToy capturedToy = toyCaptor.getValue();
+        assertEquals("Teddy Bear", capturedToy.getTitle());
+        assertEquals("Hasbro", capturedToy.getBrand());
+        assertEquals(5, capturedToy.getRecommendedAge());
+        assertEquals("Plush", capturedToy.getCategory());
+
+        verify(viewMock, times(1)).addToyResponse();
     }
 }

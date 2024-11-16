@@ -52,7 +52,7 @@ public class ElfView extends View {
     }
 
     public static void closeSession() {
-        HomeView.index();
+        HomeViewTest.index();
     }
 
 }

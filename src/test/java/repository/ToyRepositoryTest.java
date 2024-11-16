@@ -1,7 +1,7 @@
 package repository;
 
 import models.GoodToy;
-import models.BadToy;
+import models.BadToyTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ public class ToyRepositoryTest {
 
     @Test
     public void testAddBadToy() {
-        BadToy badToy = new BadToy("Mystery Box", "Carbón");
+        BadToyTest badToy = new BadToyTest("Mystery Box", "Carbón");
         toyRepository.addBadToy(badToy);
 
         assertEquals(1, toyRepository.getAllBadToys().size());

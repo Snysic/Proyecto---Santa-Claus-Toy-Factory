@@ -1,7 +1,7 @@
 package db;
 
 import models.GoodToy;
-import models.BadToy;
+import models.BadToyTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ public class ToysDBTest {
 
     @Test
     public void testAddBadToy() {
-        BadToy badToy = new BadToy("Mystery Box", "Carbón");
+        BadToyTest badToy = new BadToyTest("Mystery Box", "Carbón");
         toysDB.getBadToys().add(badToy);
 
         assertEquals(1, toysDB.getBadToys().size());
