@@ -1,7 +1,7 @@
 package newyearproject.models;
 
 
-public class BadToy extends Toy {
+class BadToy extends Toy {
 
     private String content;
 
@@ -10,17 +10,11 @@ public class BadToy extends Toy {
         this.content = content;
     }
 
-    public BadToy(String id, String title, boolean isGoodToy, String content) {
-        super(id, title, isGoodToy);
-        this.content = content;
+    @Override
+    public String toString() {
+        return "BadToy{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
 }

@@ -22,11 +22,7 @@ public class Toy {
     }
 
     public void setId(int id) {
-        if (isGoodToy) {
-            this.id = "B" + id;
-        } else {
-            this.id = "M" + id;
-        }
+        this.id = (isGoodToy ? "B" : "M") + id;
     }
 
     public String getTitle() {
@@ -36,5 +32,4 @@ public class Toy {
     public void setTitle(String title) {
         this.title = title;
     }
-
 }
