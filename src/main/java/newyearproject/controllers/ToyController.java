@@ -6,7 +6,9 @@ import newyearproject.models.BadToy;
 import newyearproject.models.GoodToy;
 import newyearproject.repository.ToyRepository;
 import newyearproject.singletons.ToyRepositorySingleton;
-import newyearproject.mvc.views.ElfView;
+import newyearproject.views.ElfView;
+
+import java.util.List;
 
 public class ToyController {
 
@@ -17,8 +19,6 @@ public class ToyController {
     }
 
     public void postGoodToy(GoodToyDto goodToyDto) {
-        // hará algo con el repositorio
-        // si todo ha ido bien devolverá la respuesta
         GoodToy toy = new GoodToy(goodToyDto.title(), true, goodToyDto.brand(), goodToyDto.recommendedAge(), goodToyDto.category());
         repository.setDB("good_toy");
         repository.saveGoodToy(toy);
@@ -32,4 +32,19 @@ public class ToyController {
         ElfView.addToyResponse();
     }
 
+    public void viewGoodToys() {
+        repository.setDB("good_toy");
+        List<GoodToy> toys = ((List<GoodToy>) repository.getDB().getToys());
+        toys.forEach(System.out::println);
+    }
+
+    public void viewBadToys() {
+        repository.setDB("bad_toy");
+        List<BadToy> toys = ((List<BadToy>) repository.getDB().getToys());
+        toys.forEach(System.out::println);
+    }
+
+    public void saveToysToCSV() {
+        System.out.println("The function of saving to CSV is not yet implemented.");
+    }
 }
