@@ -9,8 +9,6 @@ public class HomeController {
     }
 
     public void index() {
-        // responde con una vista
-        HomeView.index();
+        HomeView.index(); 
     }
-
 }
