@@ -1,16 +1,11 @@
 package newyearproject;
 
-import HomeController;
-import models.BadToyTest;
-import newyearproject.db.ToysDB;
-import newyearproject.models.GoodToy;
+import newyearproject.controllers.HomeController;
 
 public class App {
 
     public static void main(String[] args) {
-        
-        new HomeController();
-
+        System.out.println("Запуск программы новогоднего менеджера игрушек...");
+        new HomeController(); 
     }
-
 }
