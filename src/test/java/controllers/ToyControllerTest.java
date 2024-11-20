@@ -1,44 +1,104 @@
 package controllers;
 
-import dtos.GoodToyDto;
-import models.GoodToy;
+import newyearproject.controllers.ToyController;
+import newyearproject.db.ToysDB;
+import newyearproject.models.BadToy;
+import newyearproject.models.GoodToy;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import repository.ToyRepository;
-import views.ElfViewTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-class ToyControllerTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    private ToyRepository repositoryMock;
-    private ElfViewTest viewMock;
-    private ToyController controller;
+public class ToyControllerTest {
+
+    private ToysDB toysDB;
 
     @BeforeEach
-    void setUp() {
-        repositoryMock = mock(ToyRepository.class);
-        viewMock = mock(ElfViewTest.class);
-        controller = new ToyController(repositoryMock, viewMock);
+    public void setup() {
+        toysDB = new ToysDB();
+
+        
+        toysDB.getGoodToys().add(new GoodToy("Teddy Bear", "Hasbro", 3, "Plush"));
+        toysDB.getBadToys().add(new BadToy("Broken Car", "Missing wheels"));
+    }
+
+    
+    private String captureOutput(Runnable action) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out; 
+        System.setOut(new PrintStream(outputStream)); 
+
+        try {
+            action.run(); 
+        } finally {
+            System.setOut(originalOut); 
+        }
+
+        return outputStream.toString().trim(); 
     }
 
     @Test
-    void testPostGoodToy() {
-        GoodToyDto dto = new GoodToyDto("Teddy Bear", "Hasbro", 5, "Plush");
+    public void testViewGoodToys() {
+        ToyController toyController = new ToyController(toysDB);
 
-        controller.postGoodToy(dto);
+        String output = captureOutput(toyController::viewGoodToys);
 
-        ArgumentCaptor<GoodToy> toyCaptor = ArgumentCaptor.forClass(GoodToy.class);
-        verify(repositoryMock, times(1)).addGoodToy(toyCaptor.capture());
+        assertTrue(output.contains("Displaying Good Toys"));
+        assertTrue(output.contains("Teddy Bear")); 
+    }
 
-        GoodToy capturedToy = toyCaptor.getValue();
-        assertEquals("Teddy Bear", capturedToy.getTitle());
-        assertEquals("Hasbro", capturedToy.getBrand());
-        assertEquals(5, capturedToy.getRecommendedAge());
-        assertEquals("Plush", capturedToy.getCategory());
+    @Test
+    public void testViewBadToys() {
+        ToyController toyController = new ToyController(toysDB);
 
-        verify(viewMock, times(1)).addToyResponse();
+        String output = captureOutput(toyController::viewBadToys);
+
+        assertTrue(output.contains("Displaying Bad Toys"));
+        assertTrue(output.contains("Broken Car")); 
+    }
+
+    @Test
+    public void testSaveToysToCSV() {
+        ToyController toyController = new ToyController(toysDB);
+
+        String output = captureOutput(toyController::saveToysToCSV);
+
+        assertTrue(output.contains("Saving toys to CSV file."));
+        assertTrue(output.contains("Toys saved successfully to CSV."));
+    }
+
+    @Test
+    public void testViewGoodToysWithEmptyDB() {
+        toysDB.getGoodToys().clear();
+        ToyController toyController = new ToyController(toysDB);
+
+        String output = captureOutput(toyController::viewGoodToys);
+
+        assertTrue(output.contains("No good toys available."));
+    }
+
+    @Test
+    public void testViewBadToysWithEmptyDB() {
+        toysDB.getBadToys().clear(); 
+        ToyController toyController = new ToyController(toysDB);
+
+        String output = captureOutput(toyController::viewBadToys);
+
+        assertTrue(output.contains("No bad toys available."));
+    }
+
+    @Test
+    public void testSaveToysToCSVWithEmptyDB() {
+        toysDB.getGoodToys().clear(); 
+        toysDB.getBadToys().clear(); 
+        ToyController toyController = new ToyController(toysDB);
+
+        String output = captureOutput(toyController::saveToysToCSV);
+
+        assertTrue(output.contains("No toys to save."));
     }
 }

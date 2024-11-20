@@ -1,4 +1,4 @@
-package views;
+package newyearproject.views;
 
 import java.util.Scanner;
 

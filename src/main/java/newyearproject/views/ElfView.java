@@ -1,7 +1,8 @@
-package views;
+package newyearproject.views;
 
-import controllers.ToyController;
-import dtos.GoodToyDto;
+import newyearproject.controllers.ToyController;
+import newyearproject.dtos.BadToyDto;
+import newyearproject.dtos.GoodToyDto;
 
 public class ElfView extends View {
 
@@ -29,6 +30,7 @@ public class ElfView extends View {
         int option = scanner.nextInt();
 
         if (option == 1) postGoodToy();
+        if (option == 2) postBadToy();
     }
 
     public static void postGoodToy() {
@@ -46,13 +48,24 @@ public class ElfView extends View {
         controller.postGoodToy(new GoodToyDto(title, brand, age, category));
     }
 
+    public static void postBadToy() {
+        System.out.println("-----------------------------------------");
+        System.out.println("Ingrese el título:");
+        scanner.nextLine();
+        String title = scanner.nextLine();
+        System.out.println("Ingrese el contenido:");
+        String content = scanner.nextLine();
+
+        controller.postBadToy(new BadToyDto(title, content));
+    }
+
     public static void addToyResponse() {
         System.out.println("Juguete añadido con éxito");
         index();
     }
 
     public static void closeSession() {
-        HomeViewTest.index();
+        HomeView.index();
     }
 
 }

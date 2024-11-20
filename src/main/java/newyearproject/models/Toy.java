@@ -1,4 +1,4 @@
-package models;
+package newyearproject.models;
 
 public class Toy {
 
@@ -7,6 +7,12 @@ public class Toy {
     protected boolean isGoodToy;
 
     public Toy(String title, boolean isGoodToy) {
+        this.title = title;
+        this.isGoodToy = isGoodToy;
+    }
+
+    public Toy(String id, String title, boolean isGoodToy) {
+        this.id = id;
         this.title = title;
         this.isGoodToy = isGoodToy;
     }

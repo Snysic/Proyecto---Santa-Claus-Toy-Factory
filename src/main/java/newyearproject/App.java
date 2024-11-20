@@ -1,11 +1,16 @@
 package newyearproject;
 
-import views.HomeViewTest;
+import HomeController;
+import models.BadToyTest;
+import newyearproject.db.ToysDB;
+import newyearproject.models.GoodToy;
 
-public final class App {
-    private App() {}
+public class App {
 
     public static void main(String[] args) {
-        HomeViewTest.index();
+        
+        new HomeController();
+
     }
+
 }

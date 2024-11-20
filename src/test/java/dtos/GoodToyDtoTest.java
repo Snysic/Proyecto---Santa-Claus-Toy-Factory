@@ -2,6 +2,8 @@ package dtos;
 
 import org.junit.jupiter.api.Test;
 
+import newyearproject.dtos.GoodToyDto;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GoodToyDtoTest {

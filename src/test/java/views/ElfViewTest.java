@@ -1,89 +1,92 @@
 package views;
 
-import controllers.ToyController;
-import dtos.GoodToyDto;
-import models.GoodToy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import repository.ToyRepository;
-import views.ElfView;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import newyearproject.views.ElfView;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-class ElfViewTest {
+public class ElfViewTest {
 
-    private TestToyRepository repository;
-    private TestElfView view;
-    private ToyController controller;
+    private ElfView elfView;
+    private ByteArrayOutputStream outputStream;
+
+    @Mock
+    private ToyController toyController;
 
     @BeforeEach
-    void setUp() {
-        repository = new TestToyRepository();
-        view = new TestElfView();
-        controller = new ToyController(repository, view);
-        setPrivateControllerField(controller);
+    public void setup() {
+        // Инициализация Mockito аннотаций
+        MockitoAnnotations.openMocks(this);
+
+        // Создание нового ByteArrayOutputStream для захвата вывода
+        outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));  // Подменяем System.out
+
+        // Инициализация ElfView с mock-объектом ToyController
+        elfView = new ElfView(toyController);
+    }
+
+    // Метод для симуляции ввода пользователя
+    private void simulateInput(String input) {
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);  // Подменяем System.in для имитации ввода
     }
 
     @Test
-    void testPostGoodToy() {
-        String input = "1\nCar\nMattel\n3\nVehicles\n";
-        simulateUserInput(input);
+    public void testAddGoodToy() {
+        // Симулируем ввод данных, которые будут использоваться в методе postGoodToy
+        simulateInput("1\nCar\nHotWheels\n5\nVehicles\n5\n");
 
-        // Вызываем метод ElfView
-        ElfView.index();
+        // Вызываем метод index(), который будет обрабатывать введенную команду
+        elfView.index();
 
-        // Проверяем, что игрушка была добавлена в репозиторий
-        assertEquals(1, repository.getGoodToys().size());
-        GoodToy toy = repository.getGoodToys().get(0);
-        assertEquals("Car", toy.getTitle());
-        assertEquals("Mattel", toy.getBrand());
-        assertEquals(3, toy.getRecommendedAge());
-        assertEquals("Vehicles", toy.getCategory());
+        // Получаем весь вывод, который был напечатан на экране
+        String output = outputStream.toString();
 
-        // Проверяем, что метод addToyResponse был вызван
-        assertEquals(1, view.responseCallCount);
+        // Проверяем, что вывод содержит текст, который мы ожидали
+        assertTrue(output.contains("Ingrese el título:"));
+        assertTrue(output.contains("Ingrese la marca:"));
+        assertTrue(output.contains("Ingrese la edad recomendada:"));
+        assertTrue(output.contains("Ingrese la categoria:"));
+        assertTrue(output.contains("Juguete añadido con éxito"));
+
+        // Проверяем, что метод controller.postGoodToy был вызван с нужным объектом
+        verify(toyController).postGoodToy(any(GoodToyDto.class));
     }
 
-    private void simulateUserInput(String input) {
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+    @Test
+    public void testCloseSession() {
+        // Симулируем выбор опции "Cerrar sesión" (5)
+        simulateInput("5\n");
+
+        // Вызываем метод index(), который будет обрабатывать введенную команду
+        elfView.index();
+
+        // Проверяем, что в выводе есть сообщение о закрытии сессии
+        String output = outputStream.toString();
+        assertTrue(output.contains("Sesión cerrada."));
     }
 
-    private void setPrivateControllerField(ToyController controllerInstance) {
-        try {
-            var field = ElfView.class.getDeclaredField("controller");
-            field.setAccessible(true);
-            field.set(null, controllerInstance);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to set private field 'controller'", e);
-        }
-    }
+    @Test
+    public void testInvalidOption() {
+        // Симулируем ввод некорректной опции
+        simulateInput("99\n");
 
-    // Поддельная реализация репозитория
-    static class TestToyRepository implements ToyRepository {
-        private final List<GoodToy> goodToys = new ArrayList<>();
+        // Вызываем метод index(), который будет обрабатывать введенную команду
+        elfView.index();
 
-        @Override
-        public void addGoodToy(GoodToy toy) {
-            goodToys.add(toy);
-        }
-
-        public List<GoodToy> getGoodToys() {
-            return goodToys;
-        }
-    }
-
-    // Поддельная реализация представления
-    static class TestElfView {
-        public int responseCallCount = 0;
-
-        public void addToyResponse() {
-            responseCallCount++;
-        }
+        // Проверяем, что в выводе содержится сообщение об ошибке
+        String output = outputStream.toString();
+        assertTrue(output.contains("Opción inválida"));
     }
 }

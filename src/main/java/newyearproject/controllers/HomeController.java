@@ -1,6 +1,6 @@
-package controllers;
+package newyearproject.controllers;
 
-import views.HomeViewTest;
+import newyearproject.views.HomeView;
 
 public class HomeController {
 
@@ -10,7 +10,7 @@ public class HomeController {
 
     public void index() {
         // responde con una vista
-        HomeViewTest.index();
+        HomeView.index();
     }
 
 }
