@@ -1,9 +1,16 @@
 package newyearproject.controllers;
 
-import newyearproject.repository.ToyRepository;
-import newyearproject.singletons.ToyRepositorySingleton;
-import newyearproject.models.GoodToy;
-import newyearproject.models.Toy;
+import controllers.ToyController;
+import dto.BadToyDto;
+import dto.GoodToyDto;
+import models.BadToy;
+import models.GoodToy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import repository.ToyRepository;
+import singletons.ToyRepositorySingleton;
+import views.ElfView;
+ 
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +44,6 @@ public class ToyController {
 
     public void saveToysToCSV() {
         try (FileWriter writer = new FileWriter("toys.csv")) {
-            // Save good toys
             repository.setDB("good_toy");
             List<? extends Toy> goodToys = repository.getDB().getToys();
             writer.write("Good Toys:\n");
@@ -45,7 +51,6 @@ public class ToyController {
                 writer.write(toy.toString() + "\n");
             }
 
-            // Save bad toys
             repository.setDB("bad_toy");
             List<? extends Toy> badToys = repository.getDB().getToys();
             writer.write("Bad Toys:\n");

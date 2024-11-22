@@ -1,31 +1,31 @@
 package newyearproject.db;
 
-import newyearproject.models.Toy;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import newyearproject.models.GoodToy;
+import models.BadToy;
 
-public class BadToyDatabase implements IDatabase<Toy> {
+public class BadToyDatabase implements IDatabase<BadToy> {
 
-    private List<Toy> badToys;
+    private List<BadToy> badToys;
 
     public BadToyDatabase() {
         initDB();
     }
 
-    public List<Toy> getToys() {
+    public List<BadToy> getToys() {
         return badToys;
     }
 
-    public void save(Toy toy) {
+    public void save(BadToy toy) {
         badToys.add(toy);
-        System.out.println("Bad Toy added: " + toy);
+        System.out.println("bad toy added");
     }
 
     private void initDB() {
         this.badToys = new ArrayList<>(Arrays.asList(
-                new Toy("M1", "Mystery Box 5x5", false)
-        ));
+                new BadToy("M1", "Mystery Box 5x5", true, "carbón")));
     }
+
 }
