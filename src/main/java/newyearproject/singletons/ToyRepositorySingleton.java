@@ -11,5 +11,4 @@ public class ToyRepositorySingleton {
     public static ToyRepository getInstance() {
         return INSTANCE;
     }
-
 }

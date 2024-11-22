@@ -1,0 +1,4 @@
+Good Toys:
+GoodToy{title='Batman', brand='LEGO', targetAge=12, category='Construction'}
+Bad Toys:
+Toy{id='M1', title='Mystery Box 5x5', isGoodToy=false}

@@ -1,20 +1,34 @@
 package newyearproject.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-class BadToy extends Toy {
+import newyearproject.models.BadToy;
 
-    private String content;
+import newyearproject.db.IDatabase;
 
-    public BadToy(String title, boolean isGoodToy, String content) {
-        super(title, isGoodToy);
-        this.content = content;
+public class BadToy implements IDatabase<BadToy> {
+
+    private List<BadToy> badToys;
+
+    public BadToy() {
+        initDB();
     }
 
-    @Override
-    public String toString() {
-        return "BadToy{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+    public List<BadToy> getToys() {
+        return badToys;
     }
+
+    public void save(BadToy toy) {
+        badToys.add(toy);
+        System.out.println("bad toy added");
+    }
+
+    private void initDB() {
+        this.badToys = new ArrayList<>(Arrays.asList(
+                new BadToy("M1", "Mystery Box 5x5", true, "carbón")));
+    }
+
 }
+

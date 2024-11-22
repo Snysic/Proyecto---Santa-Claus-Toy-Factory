@@ -3,36 +3,61 @@ package newyearproject.views;
 import newyearproject.controllers.ToyController;
 import newyearproject.dtos.BadToyDto;
 import newyearproject.dtos.GoodToyDto;
+import static newyearproject.views.View.scanner;
+import java.util.Scanner;
 
 public class ElfView extends View {
 
     private static final ToyController controller = new ToyController();
-
+    
     public static void index() {
-        System.out.println("-----------------------------------------");
-        System.out.println("Gestor de juguetes (Tip de sessión: Elfo)");
-        System.out.println("1. Añadir juguete");
-        System.out.println("2. Ver todos los juguetes");
-        System.out.println("4. Cerrar sesión");
-        System.out.println("Seleccione una opción:");
+        
+        String menuElf = """
+            -----------------------------------------
+            Gestor de juguetes (Tipo de sesión: Elfo)
+            1. Añadir juguete
+            2. Ver todos los juguetes
+            3. Eliminar juguete
+            4. Cerrar sesión
+            Seleccione una opción: """;
+
+        System.out.print(menuElf + " ");
 
         int option = scanner.nextInt();
 
         if (option == 1) selectChild();
-        if (option == 4) closeSession();
-    }
-
+        if (option == 2) showAllTos();
+        if (option == 3) deleteToy();
+        if (option == 4) ClouseSession();
+    }  
+        
     public static void selectChild() {
-        System.out.println("-----------------------------------------");
-        System.out.println("Para niño ...:");
-        System.out.println("1. Bueno");
-        System.out.println("2. Malo");
+            
+
+        String menuChild =  """
+            -----------------------------------------
+            Para niño ...:
+            1. Bueno
+            2. Malo
+            Seleccione una opción: """;
+        System.out.print(menuChild + " ");
+
         int option = scanner.nextInt();
 
         if (option == 1) postGoodToy();
         if (option == 2) postBadToy();
     }
+        
+    private static void postBadToy() {
+        System.out.println("-----------------------------------------");
+        System.out.println("Ingrese el título:");
+        String title = scanner.next();
+        System.out.println("Ingrese la contenido: ");
+        String content = scanner.next();
 
+        controller.postBadToy(new BadToyDto(title, content));
+    }
+        
     public static void postGoodToy() {
         System.out.println("-----------------------------------------");
         System.out.println("Ingrese el título:");
@@ -44,28 +69,23 @@ public class ElfView extends View {
         System.out.println("Ingrese la categoria:");
         String category = scanner.next();
 
-        // Dto - Data Transfert Object
         controller.postGoodToy(new GoodToyDto(title, brand, age, category));
     }
-
-    public static void postBadToy() {
-        System.out.println("-----------------------------------------");
-        System.out.println("Ingrese el título:");
-        scanner.nextLine();
-        String title = scanner.nextLine();
-        System.out.println("Ingrese el contenido:");
-        String content = scanner.nextLine();
-
-        controller.postBadToy(new BadToyDto(title, content));
+    
+    private static void showAllTos() {
+        throw new UnsupportedOperationException("Unimplemented method 'showAllTos'");
     }
 
-    public static void addToyResponse() {
-        System.out.println("Juguete añadido con éxito");
-        index();
+    private static void deleteToy() {
+        throw new UnsupportedOperationException("Unimplemented method 'deleteToy'");
     }
 
-    public static void closeSession() {
+    public static void ClouseSession() {
         HomeView.index();
     }
 
+    public static void addToyResponse() {
+        System.out.println("Toy added successfully");
+        index();
+    }
 }

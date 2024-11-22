@@ -1,7 +1,6 @@
 package newyearproject.models;
 
 public class Toy {
-
     protected String id;
     protected String title;
     protected boolean isGoodToy;
@@ -31,5 +30,22 @@ public class Toy {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isGoodToy() {
+        return isGoodToy;
+    }
+
+    public void setGoodToy(boolean goodToy) {
+        isGoodToy = goodToy;
+    }
+
+    @Override
+    public String toString() {
+        return "Toy{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", isGoodToy=" + isGoodToy +
+                '}';
     }
 }

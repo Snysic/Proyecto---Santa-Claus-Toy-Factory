@@ -1,15 +1,19 @@
 package newyearproject.singletons;
 
 import newyearproject.db.BadToyDatabase;
+import newyearproject.db.IDatabase;
+import newyearproject.models.Toy;
 
 public class BadToyDatabaseSingleton {
 
-    private static BadToyDatabase INSTANCE;
+    private static IDatabase<Toy> INSTANCE;
 
     private BadToyDatabaseSingleton() {}
 
-    public static BadToyDatabase getInstance() {
-        if (INSTANCE == null) INSTANCE = new BadToyDatabase();
+    public static IDatabase<Toy> getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BadToyDatabase();
+        }
         return INSTANCE;
     }
 }

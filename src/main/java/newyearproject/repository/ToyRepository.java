@@ -1,33 +1,36 @@
 package newyearproject.repository;
 
 import newyearproject.db.IDatabase;
-import newyearproject.models.BadToy;
+import newyearproject.models.Toy;
 import newyearproject.models.GoodToy;
 import newyearproject.singletons.BadToyDatabaseSingleton;
 import newyearproject.singletons.GoodToyDatabaseSingleton;
 
-@SuppressWarnings("rawtypes")
 public class ToyRepository {
 
-    private IDatabase db;
+    private IDatabase<? extends Toy> db; 
 
     public void setDB(String type) {
-        // setter injection
-        if (type == "good_toy")
+        if (type.equals("good_toy")) {
             this.db = GoodToyDatabaseSingleton.getInstance();
-
-        if (type == "bad_toy")
+        } else if (type.equals("bad_toy")) {
             this.db = BadToyDatabaseSingleton.getInstance();
+        }
     }
 
-    @SuppressWarnings("unchecked")
+    public IDatabase<? extends Toy> getDB() {
+        return this.db; 
+    }
+
     public void saveGoodToy(GoodToy toy) {
-        db.save(toy);
+        if (db instanceof IDatabase<GoodToy>) {
+            ((IDatabase<GoodToy>) db).save(toy);
+        }
     }
 
-    @SuppressWarnings("unchecked")
-    public void saveBadToy(BadToy toy) {
-        db.save(toy);
+    public void saveBadToy(Toy toy) {
+        if (db instanceof IDatabase<Toy>) {
+            ((IDatabase<Toy>) db).save(toy);
+        }
     }
-
 }

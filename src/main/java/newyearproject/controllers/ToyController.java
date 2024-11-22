@@ -1,13 +1,12 @@
 package newyearproject.controllers;
 
-import newyearproject.dtos.BadToyDto;
-import newyearproject.dtos.GoodToyDto;
-import newyearproject.models.BadToy;
-import newyearproject.models.GoodToy;
 import newyearproject.repository.ToyRepository;
 import newyearproject.singletons.ToyRepositorySingleton;
-import newyearproject.views.ElfView;
+import newyearproject.models.GoodToy;
+import newyearproject.models.Toy;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class ToyController {
@@ -18,33 +17,45 @@ public class ToyController {
         this.repository = ToyRepositorySingleton.getInstance();
     }
 
-    public void postGoodToy(GoodToyDto goodToyDto) {
-        GoodToy toy = new GoodToy(goodToyDto.title(), true, goodToyDto.brand(), goodToyDto.recommendedAge(), goodToyDto.category());
-        repository.setDB("good_toy");
-        repository.saveGoodToy(toy);
-        ElfView.addToyResponse();
-    }
-
-    public void postBadToy(BadToyDto badToyDto) {
-        BadToy toy = new BadToy(badToyDto.title(), false, badToyDto.content());
-        repository.setDB("bad_toy");
-        repository.saveBadToy(toy);
-        ElfView.addToyResponse();
-    }
-
     public void viewGoodToys() {
         repository.setDB("good_toy");
-        List<GoodToy> toys = ((List<GoodToy>) repository.getDB().getToys());
-        toys.forEach(System.out::println);
+        List<? extends Toy> goodToys = repository.getDB().getToys();
+        System.out.println("Good Toys:");
+        for (Toy toy : goodToys) {
+            System.out.println(toy);
+        }
     }
 
     public void viewBadToys() {
         repository.setDB("bad_toy");
-        List<BadToy> toys = ((List<BadToy>) repository.getDB().getToys());
-        toys.forEach(System.out::println);
+        List<? extends Toy> badToys = repository.getDB().getToys();
+        System.out.println("Bad Toys:");
+        for (Toy toy : badToys) {
+            System.out.println(toy);
+        }
     }
 
     public void saveToysToCSV() {
-        System.out.println("The function of saving to CSV is not yet implemented.");
+        try (FileWriter writer = new FileWriter("toys.csv")) {
+            // Save good toys
+            repository.setDB("good_toy");
+            List<? extends Toy> goodToys = repository.getDB().getToys();
+            writer.write("Good Toys:\n");
+            for (Toy toy : goodToys) {
+                writer.write(toy.toString() + "\n");
+            }
+
+            // Save bad toys
+            repository.setDB("bad_toy");
+            List<? extends Toy> badToys = repository.getDB().getToys();
+            writer.write("Bad Toys:\n");
+            for (Toy toy : badToys) {
+                writer.write(toy.toString() + "\n");
+            }
+
+            System.out.println("Toys saved to toys.csv successfully.");
+        } catch (IOException e) {
+            System.err.println("Error saving toys to CSV: " + e.getMessage());
+        }
     }
 }
