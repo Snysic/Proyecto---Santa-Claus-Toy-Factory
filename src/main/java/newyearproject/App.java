@@ -1,17 +1,10 @@
 package newyearproject;
 
-/**
- * Hello world!
- */
-public final class App {
-    private App() {
-    }
+import newyearproject.controllers.HomeController;
 
-    /**
-     * Says hello to the world.
-     * @param args The arguments of the program.
-     */
+public class App {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Launch of the New Year's toy manager program...");
+        new HomeController();
     }
 }

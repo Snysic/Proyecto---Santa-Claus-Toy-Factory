@@ -1,0 +1,1 @@
+package newyearproject.singletons;
