@@ -59,7 +59,7 @@ Exit the session when done.
 
 In Visual Studio Code, navigate to the **Testing** section to run tests and observe code coverage. The project ensures a minimum of 70% coverage across all methods.
 
-<img src="images/test-cover.png" alt="Test Cover" width="30%">
+<img src="src/main/java/newyearproject/image/cover.bmp" alt="Test Cover" width="30%">
 
 You can also find the test coverage image here: `images/test-cover.png`
 
